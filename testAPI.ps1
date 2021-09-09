@@ -1,4 +1,20 @@
-$apiToken = 'PUT-API-CODE-HERE'
+#App Control API Test Script for Powershell
+#Written by Joshua Huffman 03-25-2021
+#Edited by Daniel Rector 09-02-2021
+
+#Description 
+#This Script queries the first item in every REST api object, returning either the item or an error.
+
+#Notes
+#Please update the first line to include a valid API token. You can find your API token by going to Settings > Login Accounts > View Details button of relevant User > Show API Token. If no token exists, please generate a new token in this screen and click 'Save'. 
+#This script uses 127.0.0.1. If using another configuration, you will need to update where necessary. 
+#This script runs in the "TrustAllCertsPolicy".
+
+
+#API Token - You must update this before running.
+$apiToken = <#'PUT-API-CODE-HERE'#> 
+
+#Begin Script
 add-type @"
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
@@ -11,6 +27,7 @@ add-type @"
     }
 "@
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+
 Write-Host "Testing ApprovalRequest"
 $test1 = ""
 $test1 = Invoke-RestMethod -Uri 'https://127.0.0.1/api/bit9platform/v1/ApprovalRequest?limit=1' -Headers @{ 'X-Auth-Token' = $apiToken  }
